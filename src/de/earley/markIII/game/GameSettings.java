@@ -6,4 +6,9 @@ package de.earley.markIII.game;
 public class GameSettings {
 
 
+	private long NSPerUpdate = 16666666;
+
+	public long getNSPerUpdate() {
+		return NSPerUpdate;
+	}
 }

@@ -6,4 +6,15 @@ package de.earley.markIII.input;
 public class Input {
 
 
+	private Mouse mouse;
+	private Keyboard keyboard;
+
+	public Mouse getMouse() {
+		return mouse;
+	}
+
+	public Keyboard getKeyboard() {
+		return keyboard;
+	}
+
 }
