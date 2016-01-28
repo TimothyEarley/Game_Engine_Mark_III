@@ -2,6 +2,7 @@ package de.earley.markIII.game;
 
 import de.earley.markIII.graphics.Window;
 import de.earley.markIII.states.Layer;
+import de.earley.markIII.utils.CrashHandler;
 import de.earley.markIII.utils.Subject;
 import de.earley.markIII.utils.Vector2i;
 
@@ -45,14 +46,21 @@ public abstract class Game {
 		init();
 		running = true;
 		window.showFrame();
-		run();
+
+		try {
+			run();
+		} catch (InterruptedException e) {
+			CrashHandler.handle(e);
+		}
 	}
 
-	public void run() {
+	public void run() throws InterruptedException {
 		long previous = System.nanoTime();
 		long lag = 0;
 		long current;
 		long delta;
+
+		boolean updated = false;
 
 		//Debug
 		int frames = 0, updates = 0;
@@ -64,15 +72,20 @@ public abstract class Game {
 			previous = current;
 			lag += delta;
 			timeSinceLastSecond += delta; // Debug
+			updated = false;
 			while (lag >= settings.getNSPerUpdate()) {
 				updates++; // DEBUG
 				state.update();
 				lag -= settings.getNSPerUpdate();
+				updated = true;
 			}
 
-			frames++; //Debug
-			window.repaint();
-
+			if (updated) {
+				frames++; //Debug
+				window.repaint();
+			} else {
+				Thread.sleep(settings.getNSPerUpdate() / 2000L);
+			}
 
 			//Debug
 			if (timeSinceLastSecond >= 1E9) {
