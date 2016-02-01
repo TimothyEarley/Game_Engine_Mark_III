@@ -1,6 +1,7 @@
 package de.earley.markIII.level.objects;
 
 import de.earley.markIII.graphics.GraphicsHelper;
+import de.earley.markIII.level.Level;
 import de.earley.markIII.level.objects.components.Component;
 import de.earley.markIII.level.objects.utils.ComponentTypeManager;
 import de.earley.markIII.utils.Renderable;
@@ -8,6 +9,7 @@ import de.earley.markIII.utils.Updatable;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  *
@@ -20,6 +22,11 @@ public class GameObject implements Updatable, Renderable {
 	 * components here will be updated
 	 */
 	private HashMap<Integer, Component> components;
+
+	/**
+	 * This GameObject belongs to this Level
+	 */
+	private Level level;
 
 	public GameObject() {
 		components = new HashMap<>();
@@ -36,6 +43,11 @@ public class GameObject implements Updatable, Renderable {
 		components.forEach((id, renderComponent) -> {
 			renderComponent.render(gh);
 		});
+	}
+
+
+	public Optional<Component> getComponent(Class<Component> type) {
+		return Optional.ofNullable(components.get(ComponentTypeManager.getType(type)));
 	}
 
 	/**
@@ -63,5 +75,14 @@ public class GameObject implements Updatable, Renderable {
 
 	public Collection<Component> getComponents() {
 		return components.values();
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	@Override
+	public String toString() {
+		return "Level: " + level + "; " + components.toString();
 	}
 }

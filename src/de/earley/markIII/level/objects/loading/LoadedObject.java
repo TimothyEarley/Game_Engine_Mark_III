@@ -16,15 +16,13 @@ class LoadedObject {
 
 	private String prototype;
 
-	private ArrayList<LoadedComponent> components;
+	private ArrayList<Component> components;
 
 	public LoadedObject(String name, GameObject go) {
 		this.name = name;
 		components = new ArrayList<>();
 		Collection<Component> componentCollection = go.getComponents();
-		for (Component component : componentCollection) {
-			components.add(new LoadedComponent(component));
-		}
+		components.addAll(componentCollection);
 	}
 
 	public String getName() {
@@ -43,9 +41,7 @@ class LoadedObject {
 		else go = new GameObject();
 
 		if (components != null) {
-			for (LoadedComponent component : components) {
-				go.addComponents(component.getComponent());
-			}
+			components.forEach(go::addComponents);
 		}
 
 		return go;

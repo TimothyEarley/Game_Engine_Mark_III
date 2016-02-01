@@ -52,4 +52,14 @@ public class Level implements Updatable, Renderable{
 		}
 
 	}
+
+	public void addObject(GameObject go) {
+		go.setLevel(this);
+		objects.add(go);
+	}
+
+	public void remove(GameObject go) {
+		go.setLevel(null);
+		objects.remove(go);
+	}
 }

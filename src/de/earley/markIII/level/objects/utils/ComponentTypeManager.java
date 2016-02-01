@@ -14,11 +14,14 @@ public abstract class ComponentTypeManager {
 	private static int id = 0;
 
 	public static Integer getType(Component component) {
-		Class<? extends Component> clazz = component.getClass();
-		if (types.containsKey(clazz)) {
-			return types.get(clazz);
+		return getType(component.getClass());
+	}
+
+	public static Integer getType(Class<? extends Component> type) {
+		if (types.containsKey(type)) {
+			return types.get(type);
 		} else {
-			types.put(clazz, id++);
+			types.put(type, id++);
 			return id - 1;
 		}
 	}

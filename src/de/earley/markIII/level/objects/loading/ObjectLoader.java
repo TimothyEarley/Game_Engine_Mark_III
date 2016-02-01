@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import de.earley.markIII.level.objects.GameObject;
+import de.earley.markIII.level.objects.components.Component;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,7 +22,10 @@ import java.util.Map;
 public class ObjectLoader {
 
 	private static Type type = new TypeToken<ArrayList<LoadedObject>>() {}.getType();
-	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static Gson gson = new GsonBuilder()
+			.setPrettyPrinting()
+			.registerTypeAdapter(Component.class, new ComponentAdapter())
+			.create();
 
 	public static HashMap<String, GameObject> loadAll(String ... filePaths) throws IOException {
 
