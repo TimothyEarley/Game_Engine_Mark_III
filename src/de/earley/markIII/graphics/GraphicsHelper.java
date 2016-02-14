@@ -1,6 +1,7 @@
 package de.earley.markIII.graphics;
 
 import de.earley.markIII.graphics.drawable.Drawable;
+import de.earley.markIII.utils.GraphicsUtils;
 import de.earley.markIII.utils.Vector2i;
 
 import java.awt.*;
@@ -39,11 +40,11 @@ public class GraphicsHelper {
 		this.width = size.x;
 		this.height = size.y;
 		this.pixel = new int[width * height];
-		image = GraphicsEnvironment
-				.getLocalGraphicsEnvironment()
-				.getDefaultScreenDevice()
-				.getDefaultConfiguration()
-				.createCompatibleImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		image = GraphicsUtils.createImage(width, height);
+	}
+
+	public GraphicsHelper(Graphics2D g, int width, int height) {
+		this(g, new Vector2i(width, height));
 	}
 
 	/**
@@ -52,6 +53,11 @@ public class GraphicsHelper {
 	 */
 	public Graphics getGraphics() {
 		return g;
+	}
+
+
+	public void render(Drawable drawable) {
+		this.render(drawable, new Vector2i(0, 0));
 	}
 
 	public void render(Drawable drawable, Vector2i position) {
@@ -86,5 +92,4 @@ public class GraphicsHelper {
 	public void show() {
 		g.drawImage(image, 0, 0, null);
 	}
-
 }

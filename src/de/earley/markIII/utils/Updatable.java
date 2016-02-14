@@ -1,5 +1,7 @@
 package de.earley.markIII.utils;
 
+import de.earley.markIII.input.Input;
+
 /**
  *
  * Indicates that this is indeed updatable
@@ -9,6 +11,7 @@ package de.earley.markIII.utils;
 public interface Updatable {
 	/**
 	 * Update this
+	 * @param input
 	 */
-	void update();
+	void update(Input input);
 }

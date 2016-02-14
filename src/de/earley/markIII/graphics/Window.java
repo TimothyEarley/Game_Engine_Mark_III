@@ -3,6 +3,7 @@ package de.earley.markIII.graphics;
 import de.earley.markIII.game.Game;
 import de.earley.markIII.input.Input;
 import de.earley.markIII.utils.ComponentSubject;
+import de.earley.markIII.utils.Logger;
 import de.earley.markIII.utils.Vector2i;
 
 import javax.swing.*;
@@ -19,29 +20,25 @@ public class Window extends JPanel {
 	private JFrame frame;
 
 	/**
-	 * Key and Mouse
+	 * Which game are we supposed to be displaying
 	 */
-	private Input input;
+	private Game game;
 
 	/**
-	 * The desired size
+	 * Original size
 	 */
 	private Vector2i size;
 
 	/**
-	 * Stretch the display
+	 * Handles all the input
 	 */
-	private float stretch = 1;
+	private Input input = new Input();
 
 	/**
-	 * Offset the display
+	 * Stretch compared to original
 	 */
-	private Vector2i offset = new Vector2i(0,0);
+	private double stretchX = 1, stretchY = 1;
 
-	/**
-	 * Which game are we supposed to be displaying
-	 */
-	private Game game;
 
 	public Window(String title, Vector2i size, Game game) {
 		this.game = game;
@@ -54,25 +51,19 @@ public class Window extends JPanel {
 	}
 
 	private void addInput() {
-		Input input = new Input();
-		frame.addMouseMotionListener(input.getMouse());
-		frame.addMouseListener(input.getMouse());
-		frame.addKeyListener(input.getKeyboard());
+		Logger.log(Logger.TYPE.INPUT, "Input added");
+		addMouseMotionListener(input.getMouse());
+		addMouseListener(input.getMouse());
+		addKeyListener(input.getKeyboard());
 
 		ComponentSubject componentSubject = new ComponentSubject();
-		componentSubject.getResizeSubject().registerAction(this::checkSize);
-		frame.addComponentListener(componentSubject);
+		addComponentListener(componentSubject);
+		componentSubject.getResizeSubject().registerAction(this::resize);
 	}
 
-	/**
-	 * Recalculate the stretch and offset
-	 */
-	public void checkSize() {
-		Vector2i newSize = new Vector2i(getWidth(), getHeight());
-		float stretchX = newSize.x / (float) size.x;
-		float stretchY = newSize.y / (float) size.y;
-		stretch = Math.min(stretchX, stretchY);
-		offset = new Vector2i((newSize.x - size.x * stretch) / 2, (newSize.y - size.y * stretch) / 2);
+	private void resize() {
+		this.stretchX = getWidth() / (float) size.x;
+		this.stretchY = (getHeight() ) / (float) size.y;
 	}
 
 
@@ -87,12 +78,31 @@ public class Window extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	private int titlebar() {
+		return frame.getInsets().top;
+	}
+
 	public void showFrame() {
 		frame.setVisible(true);
+		frame.setSize(size.x, size.y + titlebar());
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		game.render((Graphics2D) g, stretch, offset);
+
+		// clear
+		g.clearRect(0, 0, getWidth(), getHeight());
+
+		game.render((Graphics2D) g, stretchX, stretchY);
+	}
+
+	public Input pollInput() {
+		input.poll();
+		return input;
+	}
+
+
+	public Vector2i getOriginalSize() {
+		return size;
 	}
 }

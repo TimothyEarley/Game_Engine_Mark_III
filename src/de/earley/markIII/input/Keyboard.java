@@ -7,5 +7,8 @@ import java.awt.event.KeyAdapter;
  */
 public class Keyboard extends KeyAdapter {
 
+	//TODO implement
 
+	public void poll() {
+	}
 }

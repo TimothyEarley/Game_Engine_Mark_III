@@ -3,16 +3,18 @@ package de.earley.markIII.game;
 import de.earley.markIII.graphics.Window;
 import de.earley.markIII.states.Layer;
 import de.earley.markIII.utils.CrashHandler;
+import de.earley.markIII.utils.Logger;
 import de.earley.markIII.utils.Subject;
 import de.earley.markIII.utils.Vector2i;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 /**
- *
  * The main component of the game ties together the display and layers.
  * Also included is the main loop
- *
+ * <p>
  * Created by timmy on 22/01/16.
  */
 public abstract class Game {
@@ -75,7 +77,7 @@ public abstract class Game {
 			updated = false;
 			while (lag >= settings.getNSPerUpdate()) {
 				updates++; // DEBUG
-				state.update();
+				state.updateAll(window.pollInput());
 				lag -= settings.getNSPerUpdate();
 				updated = true;
 			}
@@ -84,20 +86,43 @@ public abstract class Game {
 				frames++; //Debug
 				window.repaint();
 			} else {
-				Thread.sleep(settings.getNSPerUpdate() / 2000L);
+				//TODO sleep
+//				Thread.sleep(settings.getNSPerUpdate() / 2000L);
 			}
 
 			//Debug
 			if (timeSinceLastSecond >= 1E9) {
 				timeSinceLastSecond -= 1E9;
-				System.out.println("FPS: " + frames + ", UPS: " + updates); //TODO remove syso
+				Logger.log(Logger.TYPE.FPS, "FPS: " + frames + ", UPS: " + updates);
 				frames = updates = 0;
 			}
 		}
 	}
 
-	public void render(Graphics2D g, float stretch, Vector2i offset) {
-		state.render(g, stretch, offset);
+	public void render(Graphics2D g, double stretchX, double stretchY) {
+
+		AffineTransform at = new AffineTransform();
+
+		double stretch = Math.min(stretchX, stretchY);
+
+		if (settings.keepProportions) {
+			Vector2i offset = new Vector2i((window.getOriginalSize().x * (stretchX - stretch)) / 2, (window.getOriginalSize().y * (stretchY - stretch) / 2));
+			at.translate(offset.x, offset.y);
+			stretchX = stretchY = stretch;
+			at.scale(stretch, stretch);
+		}
+
+
+		g.transform(at);
+
+		state.render(g, stretchX, stretchY);
+
+		try {
+			g.transform(at.createInverse());
+		} catch (NoninvertibleTransformException e) {
+			CrashHandler.handle(e);
+		}
+
 	}
 
 	protected abstract void init();
@@ -113,5 +138,9 @@ public abstract class Game {
 
 	public Subject getShutdownHook() {
 		return shutdownHook;
+	}
+
+	public GameSettings getSettings() {
+		return settings;
 	}
 }

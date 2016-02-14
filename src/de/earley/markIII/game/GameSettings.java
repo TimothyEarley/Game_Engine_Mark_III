@@ -5,10 +5,12 @@ package de.earley.markIII.game;
  */
 public class GameSettings {
 
+	public boolean keepProportions;
 
 	private long NSPerUpdate = 16666666;
 
 	public long getNSPerUpdate() {
 		return NSPerUpdate;
 	}
+
 }

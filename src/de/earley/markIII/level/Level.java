@@ -1,6 +1,7 @@
 package de.earley.markIII.level;
 
 import de.earley.markIII.graphics.GraphicsHelper;
+import de.earley.markIII.input.Input;
 import de.earley.markIII.level.map.Map;
 import de.earley.markIII.level.objects.GameObject;
 import de.earley.markIII.utils.Renderable;
@@ -29,12 +30,12 @@ public class Level implements Updatable, Renderable{
 
 
 	@Override
-	public void update() {
+	public void update(Input input) {
 
-		map.update();
+		map.update(input);
 
 		for (GameObject object : objects) {
-			object.update();
+			object.update(input);
 		}
 		//TODO remove objects
 

@@ -1,6 +1,7 @@
 package de.earley.markIII.level.objects.components;
 
 import de.earley.markIII.graphics.GraphicsHelper;
+import de.earley.markIII.input.Input;
 import de.earley.markIII.utils.Renderable;
 import de.earley.markIII.utils.Updatable;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public abstract class Component implements Updatable, Renderable {
 
 	@Override
-	public void update() {
+	public void update(Input input) {
 		//default
 	}
 

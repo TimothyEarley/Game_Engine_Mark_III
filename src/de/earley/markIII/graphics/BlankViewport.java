@@ -16,7 +16,7 @@ public class BlankViewport extends Viewport {
 	}
 
 	@Override
-	public void render(Graphics2D g, float stretch, Vector2i offset) {
-		return; // no rendering!
+	public void render(Graphics2D g, double stretchX, double stretchY) {
+		// do nothing
 	}
 }

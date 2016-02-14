@@ -10,5 +10,5 @@ import java.awt.*;
  */
 public interface BasicRenderable {
 
-	void render(Graphics2D g, float stretch, Vector2i offset);
+	void render(Graphics2D g, double stretchX, double stretchY);
 }
