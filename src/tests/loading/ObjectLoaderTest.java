@@ -1,4 +1,4 @@
-package tests.de.earley.markIII.level.objects.loading;
+package tests.loading;
 
 import de.earley.markIII.level.objects.GameObject;
 import de.earley.markIII.level.objects.loading.ObjectLoader;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,7 @@ import java.util.HashMap;
  * Created by timmy on 01/02/16.
  */
 public class ObjectLoaderTest {
+
 
 	ArrayList<HashMap<String, GameObject>> expected;
 
@@ -52,7 +54,7 @@ public class ObjectLoaderTest {
 
 				// load:
 
-				HashMap<String, GameObject> map = ObjectLoader.loadAll("test/gameObjects.json");
+				Map<String, GameObject> map = ObjectLoader.loadAllFiles("test/gameObjects.json");
 
 				Assert.assertEquals(map.size(), gameObjectHashMap.size());
 			}
@@ -68,7 +70,7 @@ public class ObjectLoaderTest {
 	public void testPrototype() {
 
 		try {
-			HashMap<String, GameObject> map = ObjectLoader.loadAll("test/prototypeTest.json");
+			Map<String, GameObject> map = ObjectLoader.loadAllFiles("test/prototypeTest.json");
 
 			Assert.assertEquals(map.get("extra").getComponents().size(), 1);
 		} catch (IOException e) {

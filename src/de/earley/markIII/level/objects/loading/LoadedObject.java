@@ -5,10 +5,12 @@ import de.earley.markIII.level.objects.components.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by timmy on 28/01/16.
+ *
+ * @author Timothy Earley
  */
 class LoadedObject {
 
@@ -33,7 +35,7 @@ class LoadedObject {
 	 * @param map existing objects
 	 * @return a fresh gameobject
 	 */
-	public GameObject createGameObject(HashMap<String, GameObject> map) {
+	public GameObject createGameObject(Map<String, GameObject> map) {
 		GameObject prototypeObject = map.get(prototype);
 
 		GameObject go;

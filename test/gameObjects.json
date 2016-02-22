@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Number 2",
+    "components": []
+  },
+  {
+    "name": "Number 1",
+    "components": [
+      {
+        "type": "tests.loading.TestComponent",
+        "data": {
+          "testString": "go1 - comp 2"
+        }
+      },
+      {
+        "type": "tests.loading.BlankTestComponent_A",
+        "data": {}
+      },
+      {
+        "type": "tests.loading.BlankTestComponent_B",
+        "data": {}
+      }
+    ]
+  }
+]

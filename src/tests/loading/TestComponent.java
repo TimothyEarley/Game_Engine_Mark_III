@@ -1,9 +1,11 @@
-package tests.de.earley.markIII.level.objects.loading;
+package tests.loading;
 
 import de.earley.markIII.level.objects.components.Component;
 
 /**
  * Created by timmy on 01/02/16.
+ *
+ * @author Timothy Earley
  */
 public class TestComponent extends Component {
 

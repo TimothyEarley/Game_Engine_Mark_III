@@ -1,0 +1,19 @@
+[
+	{
+		"name": "Base",
+		"components": [
+			{
+				"type": "tests.loading.TestComponent",
+				"data": {
+					"testString": "Base class"
+				}
+			}
+		]
+	},
+
+	{
+		"name": "extra",
+		"prototype": "Base"
+	}
+
+]
